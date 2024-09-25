@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Form.css">
-    <title>Biodata Form</title>
 </head>
 <body>
     <div class="form-container">
@@ -28,7 +27,8 @@
             </select>
 
             <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
+            <input type="tel" id="phone" name="phone" required pattern="[0-9]+" title="Please enter only numbers">
+
 
             <label for="address">Address:</label>
             <textarea id="address" name="address" required></textarea>
@@ -56,6 +56,9 @@
                 <label for="author">Author:</label>
                 <input type="text" id="author" name="author" required>
 
+                <label for="book-code">Book Code:</label>
+                <input type="text" id="book-code" name="book-code" required>
+
                 <label for="genre">Genre:</label>
                 <select id="genre" name="genre" required>
                     <option value="" disabled selected>Select a genre</option>
@@ -73,31 +76,55 @@
 
     <script>
         document.getElementById('next-button').addEventListener('click', function() {
-            const password = document.getElementById('password').value;
-            const retypePassword = document.getElementById('retype-password').value;
-            const email = document.getElementById('email').value;
-            const errorMessage = document.getElementById('error-message');
+        const form = document.getElementById('biodata-form');
+        const password = document.getElementById('password').value;
+        const retypePassword = document.getElementById('retype-password').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const errorMessage = document.getElementById('error-message');
 
-            // Clear previous error message
-            errorMessage.classList.add('hidden');
+        // Clear previous error message
+        errorMessage.classList.add('hidden');
 
-            // Basic email validation
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
+        // Check if the form is valid using HTML5 validation
+        // middle name may be empty
+        if (!form.checkValidity()) {
+            // Trigger built-in form validation messages
+            form.reportValidity();
+            return; // Stop further execution if the form is invalid
+        }
 
-            // Password validation
-            if (password !== retypePassword) {
-                errorMessage.classList.remove('hidden');
-                return;
-            }
+        // Basic email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
 
-            // If everything is valid, switch to the library form
-            document.getElementById('biodata-form').classList.add('hidden');
-            document.getElementById('library-data').classList.remove('hidden');
-        });
+        // Ensure phone number only contains digits
+        const phonePattern = /^[0-9]+$/;
+        if (!phonePattern.test(phone)) {
+            alert("Please enter a valid phone number containing only digits.");
+            return;
+        }
+
+        // Password validation
+        if (password !== retypePassword) {
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+
+        // If everything is valid, switch to the library form
+        document.getElementById('biodata-form').classList.add('hidden');
+        document.getElementById('library-data').classList.remove('hidden');
+        
+        // Hide the Biodata Form title when switching to the second form
+        document.querySelector('h1').style.display = 'none';
+    });
+
+
+
     </script>
 </body>
 </html>
+
