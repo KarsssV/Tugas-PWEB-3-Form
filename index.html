@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="karla.css">
+    <title>Biodata Form</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Biodata Form</h1>
+        <form id="biodata-form">
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="first-name" required>
+
+            <label for="middle-name">Middle Name:</label>
+            <input type="text" id="middle-name" name="middle-name">
+
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="" disabled selected>Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="retype-password">Retype Password:</label>
+            <input type="password" id="retype-password" name="retype-password" required>
+
+            <div id="error-message" class="error hidden">Passwords do not match!</div>
+
+            <button type="button" id="next-button">Next</button>
+        </form>
+
+        <div id="library-data" class="hidden">
+            <h1>Library Data Form</h1>
+            <form id="library-form">
+                <label for="book-title">Book Title:</label>
+                <input type="text" id="book-title" name="book-title" required>
+
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+
+                <label for="genre">Genre:</label>
+                <select id="genre" name="genre" required>
+                    <option value="" disabled selected>Select a genre</option>
+                    <option value="fiction">Fiction</option>
+                    <option value="non-fiction">Non-Fiction</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="mystery">Mystery</option>
+                    <option value="science">Science</option>
+                </select>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('next-button').addEventListener('click', function() {
+            const password = document.getElementById('password').value;
+            const retypePassword = document.getElementById('retype-password').value;
+            const email = document.getElementById('email').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // Clear previous error message
+            errorMessage.classList.add('hidden');
+
+            // Basic email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // Password validation
+            if (password !== retypePassword) {
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            // If everything is valid, switch to the library form
+            document.getElementById('biodata-form').classList.add('hidden');
+            document.getElementById('library-data').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
